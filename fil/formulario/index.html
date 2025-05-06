@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário de Contato</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Formulário de Contato</h2>
+        <form id="formContato">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+
+            <button type="submit">Enviar</button>
+        </form>  
+
+        <form action="mensagens.php" method="get">
+            <button class="mensagens" type="submit">Ver Mensagens</button>
+        </form> 
+
+        <div id="resposta" style=" font-weight: bold; text-align: center;"></div>
+
+        <form action="../index.html" method="get">
+            <button class = voltar type="submit">Voltar</button>
+        </form>
+
+    </div>
+
+    <script>
+        document.getElementById("formContato").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            fetch("salvar.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("resposta").textContent = data;
+                this.reset();
+            })
+            .catch(err => {
+                document.getElementById("resposta").textContent = "Erro ao enviar.";
+            });
+        });
+    </script>
+</body>
+</html>
